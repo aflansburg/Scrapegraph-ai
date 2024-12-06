@@ -14,7 +14,8 @@ from ..nodes import (
     ConditionalNode,
 )
 from ..prompts import REGEN_ADDITIONAL_INFO
-from scrapegraph_py import SyncClient
+from scrapegraph_py import AsyncClient
+
 
 class SmartScraperGraph(AbstractGraph):
     """
@@ -64,12 +65,10 @@ class SmartScraperGraph(AbstractGraph):
             BaseGraph: A graph instance representing the web scraping workflow.
         """
         if self.llm_model == "scrapegraphai/smart-scraper":
-
-            sgai_client = SyncClient(api_key=self.config.get("api_key"))
+            sgai_client = AsyncClient(api_key=self.config.get("api_key"))
 
             response = sgai_client.smartscraper(
-                website_url=self.source,
-                user_prompt=self.prompt
+                website_url=self.source, user_prompt=self.prompt
             )
             return response
 
